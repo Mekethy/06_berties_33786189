@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+
+    <h1>Search Results for "<%= searchTerm %>"</h1>
+
+    <% if (foundBooks.length === 0) { %>
+        <p>No books found.</p>
+    <% } else { %>
+        <ul>
+            <% foundBooks.forEach(book => { %>
+                <li><%= book.name %> — £<%= book.price %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <p><a href="/books/search">Back to Search</a></p>
+
+</body>
+</html>

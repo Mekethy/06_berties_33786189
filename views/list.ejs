@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Bertie's Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #0077cc;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #0099cc;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Bertie's Books Shop</h1>
+    <h2>Here are the books that we sell:</h2>
+
+    <ul>
+        <% availableBooks.forEach(book => { %>
+            <li><%= book.name %>, £<%= book.price %></li>
+        <% }) %>
+    </ul>
+
+</body>
+</html>

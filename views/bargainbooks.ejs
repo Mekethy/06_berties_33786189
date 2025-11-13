@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bargain Books</title>
+</head>
+<body>
+
+    <h1>Bargain Books</h1>
+    <h2>Books under £20:</h2>
+
+    <% if (cheapBooks.length === 0) { %>
+        <p>No bargain books available.</p>
+    <% } else { %>
+        <ul>
+            <% cheapBooks.forEach(book => { %>
+                <li><%= book.name %> — £<%= book.price %></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+</body>
+</html>

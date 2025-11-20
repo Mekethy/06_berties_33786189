@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audit Log</title>
+</head>
+<body>
+
+<h1>Audit Log</h1>
+
+<ul>
+    <% audits.forEach(item => { %>
+        <li>
+            <strong><%= item.username %></strong> —
+            <%= item.success ? "Success" : "Failed" %> —
+            <%= item.timestamp %>
+        </li>
+    <% }) %>
+</ul>
+
+</body>
+</html>

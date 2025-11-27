@@ -3,6 +3,7 @@ var express = require ('express')
 var ejs = require('ejs')
 const path = require('path')
 require('dotenv').config();
+var session = require ('express-session')
 
 var mysql = require('mysql2');
 
@@ -18,6 +19,17 @@ app.use(express.urlencoded({ extended: true }))
 
 // Set up public folder (for css and static js)
 app.use(express.static(path.join(__dirname, 'public')))
+
+// Create a session
+app.use(session({
+    secret: 'somerandomstuff',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}));
+
 
 // Define our application-specific data
 app.locals.shopData = {shopName: "Bertie's Books"}
@@ -41,8 +53,9 @@ const mainRoutes = require("./routes/main")
 app.use('/', mainRoutes)
 
 // Load the route handlers for /users
-const usersRoutes = require('./routes/users')
-app.use('/users', usersRoutes)
+const { router: usersRoutes, redirectLogin } = require('./routes/users');
+app.use('/users', usersRoutes);
+
 
 // Load the route handlers for /books
 const booksRoutes = require('./routes/books')

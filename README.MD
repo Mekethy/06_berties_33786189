@@ -16,3 +16,13 @@ Implemented dotenv module to secure details, moved details to .env file which is
 audit
 
 Implemented audit logging system, new database table created to store name, whether they managed to login and a timestamp, insert query in loggedin rouet to record result of login attempt, new page to display audit history.
+
+Restricted access in pages:
+
+books/list
+books/addbook
+books/bookadded
+users/list
+users/audit
+users/logout
+

@@ -26,3 +26,8 @@ users/list
 users/audit
 users/logout
 
+I added validation to adding books and the login page, this is to prevent empty or incomplete data being added to the books table and stop empty submissions appearing in the audit entries.
+
+Sanitisation
+
+Sanitised fields include in the login page, adding books, and the search text, this is because you can submit things into these forms. I did not sanitise inputs such as passwords as they need to be hashed , prices as it may turn numbers into unusable strings. 

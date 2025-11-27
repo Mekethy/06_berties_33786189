@@ -2,6 +2,7 @@
 const express = require("express")
 const router = express.Router()
 const { redirectLogin } = require('./users');
+const { check, validationResult } = require('express-validator');
 
 router.get('/search',function(req, res, next){
     res.render("search.ejs")
@@ -9,7 +10,7 @@ router.get('/search',function(req, res, next){
 
 // Lists results from search
 router.get('/search-result', function (req, res, next) {
-    let keyword = req.query.search_text;   
+    let keyword = req.sanitize(req.query.search_text);
 
 // Create SQL query (? to prevent sql injection)
     let sqlquery = "SELECT * FROM books WHERE name LIKE ?";
@@ -61,19 +62,36 @@ router.get('/bargainbooks', function(req, res, next) {
 });
 
 
-router.post('/bookadded', redirectLogin, function (req, res, next) {
-    // saving data in database
-    let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)"
-    // execute sql query
-    let newrecord = [req.body.name, req.body.price]
-    db.query(sqlquery, newrecord, (err, result) => {
-        if (err) {
-            next(err)
+router.post(
+    '/bookadded',
+    redirectLogin,
+    [
+        check('name')
+            .notEmpty().withMessage('Book name cannot be empty')
+            .trim(),
+
+        check('price')
+            .notEmpty().withMessage('Price cannot be empty')
+            .isFloat({ gt: 0 }).withMessage('Price must be a number greater than 0')
+            .isFloat({ lt: 500 }).withMessage('Price must be below £500')
+    ],
+    function (req, res, next) {
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.send("Error adding book:<br>" + JSON.stringify(errors.array()));
         }
-        else
-            res.send(' This book is added to database, name: '+ req.body.name + ' price '+ req.body.price)
-    })
-}) 
+
+        let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)";
+        let newrecord = [req.sanitize(req.body.name), req.body.price];
+
+        db.query(sqlquery, newrecord, (err, result) => {
+            if (err) next(err);
+            else res.send('This book is added to database, name: ' + req.sanitize(req.body.name) + ' price ' + req.body.price);
+        });
+    }
+);
+
 
 
 // Export the router object so index.js can access it

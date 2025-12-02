@@ -31,3 +31,7 @@ I added validation to adding books and the login page, this is to prevent empty 
 Sanitisation
 
 Sanitised fields include in the login page, adding books, and the search text, this is because you can submit things into these forms. I did not sanitise inputs such as passwords as they need to be hashed , prices as it may turn numbers into unusable strings. 
+
+API + WEATHER
+
+Simple REST API that returns book data in JSON, can get all books in database, find books via keywords, price and sort via name/price.
